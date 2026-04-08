@@ -1,0 +1,75 @@
+/*  oneML Design Tokens
+ *  Import this file in index.css to make tokens available globally.
+ */
+
+:root {
+  /* ── Brand Purple ────────────────────────────────────── */
+  --brand-purple-50: #f5f3ff;
+  --brand-purple-100: #ede9fe;
+  --brand-purple-200: #ddd6fe;
+  --brand-purple-300: #c4b5fd;
+  --brand-purple-400: #a78bfa;
+  --brand-purple-500: #8b5cf6;
+  --brand-purple: #7C3AED;
+  --brand-purple-600: #7C3AED;
+  --brand-purple-700: #6d28d9;
+  --brand-purple-800: #5b21b6;
+  --brand-purple-900: #4c1d95;
+
+  /* ── Brand Teal ──────────────────────────────────────── */
+  --brand-teal-50: #f0fdfa;
+  --brand-teal-100: #ccfbf1;
+  --brand-teal-200: #99f6e4;
+  --brand-teal-300: #5eead4;
+  --brand-teal-400: #2dd4bf;
+  --brand-teal-500: #14b8a6;
+  --brand-teal: #0D9488;
+  --brand-teal-600: #0D9488;
+  --brand-teal-700: #0f766e;
+  --brand-teal-800: #115e59;
+  --brand-teal-900: #134e4a;
+
+  /* ── Typography ──────────────────────────────────────── */
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+
+  /* ── Spacing scale (4px base) ────────────────────────── */
+  --space-1: 0.25rem;   /*  4px */
+  --space-2: 0.5rem;    /*  8px */
+  --space-3: 0.75rem;   /* 12px */
+  --space-4: 1rem;      /* 16px */
+  --space-5: 1.25rem;   /* 20px */
+  --space-6: 1.5rem;    /* 24px */
+  --space-7: 1.75rem;   /* 28px */
+  --space-8: 2rem;      /* 32px */
+  --space-9: 2.25rem;   /* 36px */
+  --space-10: 2.5rem;   /* 40px */
+  --space-11: 2.75rem;  /* 44px */
+  --space-12: 3rem;     /* 48px */
+
+  /* ── Surface colors (light) ──────────────────────────── */
+  --color-bg: #ffffff;
+  --color-bg-subtle: #f9fafb;
+  --color-surface: #ffffff;
+  --color-border: #e5e7eb;
+  --color-text: #111827;
+  --color-text-secondary: #6b7280;
+  --color-text-muted: #9ca3af;
+
+  /* ── Radii ───────────────────────────────────────────── */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+}
+
+/* ── Dark mode ───────────────────────────────────────── */
+[data-theme="dark"] {
+  --color-bg: #030712;
+  --color-bg-subtle: #111827;
+  --color-surface: #1f2937;
+  --color-border: #374151;
+  --color-text: #f9fafb;
+  --color-text-secondary: #d1d5db;
+  --color-text-muted: #6b7280;
+}
