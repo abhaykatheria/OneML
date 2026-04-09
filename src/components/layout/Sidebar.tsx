@@ -11,7 +11,8 @@ interface SidebarProps {
 export default function Sidebar({ track, lessons }: SidebarProps) {
   const [open, setOpen] = useState(false)
   const { lesson: currentLesson } = useParams<{ lesson: string }>()
-  const isCompleted = useProgressStore((s) => s.isCompleted)
+  const completedLessons = useProgressStore((s) => s.completedLessons)
+  const isCompleted = (id: string) => completedLessons.includes(id)
 
   return (
     <>

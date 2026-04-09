@@ -8,7 +8,8 @@ import { getLessonsByTrack, getLessonByFile, TRACKS } from '../../curriculum/ind
 export default function LessonShell() {
   const { track = '', lesson = '' } = useParams<{ track: string; lesson: string }>()
   const markComplete = useProgressStore((s) => s.markComplete)
-  const isCompleted = useProgressStore((s) => s.isCompleted)
+  const completedLessons = useProgressStore((s) => s.completedLessons)
+  const isCompleted = (id: string) => completedLessons.includes(id)
 
   const lessons = getLessonsByTrack(track)
   const currentMeta = getLessonByFile(track, lesson)
