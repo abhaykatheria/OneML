@@ -5,7 +5,7 @@ import LessonShell from './components/layout/LessonShell'
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/learn/:track/:lesson" element={<LessonShell />} />
