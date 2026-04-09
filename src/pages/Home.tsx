@@ -405,7 +405,7 @@ export default function Home() {
           {/* Left: team photo */}
           <div className="flex flex-1 justify-center">
             <img
-              src="/team.jpg"
+              src={`${import.meta.env.BASE_URL}team.jpg`}
               alt="One ML team"
               className="h-72 w-full max-w-md rounded-xl object-cover shadow-lg grayscale"
             />
