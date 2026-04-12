@@ -289,7 +289,7 @@ export default function Home() {
       <TopNav />
 
       {/* ─── Section 1: Hero ─── */}
-      <section className="mx-auto flex max-w-7xl flex-col-reverse items-center gap-12 px-6 pb-20 pt-16 md:flex-row md:pt-24">
+      <section className="mx-auto flex max-w-7xl flex-col items-center gap-12 px-6 pb-20 pt-16 md:flex-row md:pt-24">
         {/* Left */}
         <div className="flex-1 space-y-6">
           <span className="inline-block rounded-full border border-cyan-500/30 bg-cyan-500/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-cyan-400">
@@ -323,8 +323,8 @@ export default function Home() {
             </a>
           </div>
         </div>
-        {/* Right */}
-        <div className="flex flex-1 justify-center">
+        {/* Right — hidden on mobile */}
+        <div className="hidden flex-1 justify-center md:flex">
           <HeroVizPreview />
         </div>
       </section>
