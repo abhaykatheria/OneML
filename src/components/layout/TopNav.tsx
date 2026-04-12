@@ -37,7 +37,7 @@ export default function TopNav() {
 
         <div className="flex items-center gap-4">
           <a
-            href="https://github.com/oneml"
+            href="https://github.com/abhaykatheria/OneML"
             target="_blank"
             rel="noopener noreferrer"
             className="text-sm text-gray-400 transition hover:text-white"

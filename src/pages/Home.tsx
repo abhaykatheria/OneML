@@ -314,7 +314,7 @@ export default function Home() {
               Start Learning &rarr;
             </Link>
             <a
-              href="https://github.com/oneml"
+              href="https://github.com/abhaykatheria/OneML"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-lg border border-gray-600 px-6 py-3 font-semibold text-gray-300 transition hover:border-gray-400 hover:text-white"
@@ -443,7 +443,7 @@ export default function Home() {
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             <a
-              href="https://github.com/oneml"
+              href="https://github.com/abhaykatheria/OneML"
               target="_blank"
               rel="noopener noreferrer"
               className="rounded-lg bg-blue-800 px-6 py-3 font-semibold text-white transition hover:bg-blue-700"
