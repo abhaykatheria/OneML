@@ -285,7 +285,7 @@ function FeatureCard({ icon, title, description }: { icon: React.ReactNode; titl
 /* ── Main page ── */
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gray-950 text-white">
+    <div className="min-h-screen overflow-x-hidden bg-gray-950 text-white">
       <TopNav />
 
       {/* ─── Section 1: Hero ─── */}
@@ -333,7 +333,7 @@ export default function Home() {
       <section className="border-y border-gray-800/50 bg-gradient-to-b from-gray-900/50 to-gray-950">
         <div className="mx-auto flex max-w-7xl flex-col items-center gap-12 px-6 py-20 lg:flex-row">
           {/* Left: Live MLP architecture */}
-          <div className="flex flex-1 justify-center">
+          <div className="hidden flex-1 justify-center lg:flex">
             <MLPPreview />
           </div>
           {/* Right */}
@@ -378,7 +378,7 @@ export default function Home() {
         </div>
         <div className="flex flex-col items-center gap-12 lg:flex-row">
           {/* Left: code editor */}
-          <div className="flex flex-1 justify-center">
+          <div className="hidden flex-1 justify-center lg:flex">
             <CodeEditorMock />
           </div>
           {/* Right: checkmarks */}
@@ -402,8 +402,8 @@ export default function Home() {
       {/* ─── Section 4: Born from Innovation ─── */}
       <section className="border-y border-gray-800/50 bg-gradient-to-b from-gray-900/30 to-gray-950">
         <div className="mx-auto flex max-w-7xl flex-col items-center gap-12 px-6 py-20 lg:flex-row">
-          {/* Left: team photo */}
-          <div className="flex flex-1 justify-center">
+          {/* Left: team photo — hidden on mobile */}
+          <div className="hidden flex-1 justify-center lg:flex">
             <img
               src={`${import.meta.env.BASE_URL}team.jpg`}
               alt="One ML team"
