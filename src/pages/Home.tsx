@@ -12,6 +12,7 @@ const trackColors: Record<string, string> = {
   deep: 'from-amber-600 to-amber-800',
   advanced: 'from-blue-600 to-blue-800',
   practical: 'from-gray-600 to-gray-800',
+  systems: 'from-rose-600 to-rose-800',
 }
 
 /* ── Live VAE visualization for hero ── */

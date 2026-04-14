@@ -59,6 +59,14 @@ export const TRACKS: Track[] = [
     description: 'Evaluation, deployment, MLOps, and best practices.',
     firstLesson: 'DataPreprocessing',
   },
+  {
+    id: 'systems',
+    name: 'System Design',
+    color: 'rose',
+    icon: 'server',
+    description: 'Data-intensive application design: reliability, data models, storage engines, and distributed systems.',
+    firstLesson: 'Foundations',
+  },
 ]
 
 // ── Lesson registry ─────────────────────────────────────
@@ -121,6 +129,18 @@ const allLessons: LessonEntry[] = [
   { id: 'practical/hyperparameter-tuning', file: 'HyperparameterTuning', title: 'Hyperparameter Tuning', description: 'Grid search, random search, Bayesian optimization, and early stopping for finding the best model configuration', track: 'practical', order: 3, tags: ['hyperparameters', 'grid-search', 'random-search', 'bayesian-optimization', 'early-stopping', 'cross-validation'] },
   { id: 'practical/model-deployment', file: 'ModelDeployment', title: 'Model Deployment & MLOps', description: 'From notebook to production: model serialization, serving patterns, A/B testing, monitoring, and CI/CD for ML', track: 'practical', order: 4, tags: ['deployment', 'mlops', 'serving', 'monitoring', 'drift', 'ci-cd'] },
   { id: 'practical/responsible-ai', file: 'ResponsibleAI', title: 'Responsible AI', description: 'Fairness, bias, interpretability, SHAP values, privacy, and practical guidelines for ethical ML', track: 'practical', order: 5, tags: ['fairness', 'bias', 'interpretability', 'shap', 'ethics', 'responsible-ai'] },
+
+  // ── System Design (10) ──
+  { id: 'systems/foundations', file: 'Foundations', title: 'Reliability, Scalability & Maintainability', description: 'The three pillars of data-intensive applications', track: 'systems', order: 1, tags: ['reliability', 'scalability', 'maintainability', 'latency', 'sla'] },
+  { id: 'systems/data-models', file: 'DataModels', title: 'Data Models & Query Languages', description: 'Relational, document, and graph models and their query languages', track: 'systems', order: 2, tags: ['relational', 'document', 'graph', 'sql', 'nosql'] },
+  { id: 'systems/storage-engines', file: 'StorageEngines', title: 'Storage Engines', description: 'LSM-trees vs B-trees — how databases store and retrieve data', track: 'systems', order: 3, tags: ['lsm-tree', 'b-tree', 'sstable', 'compaction'] },
+  { id: 'systems/encoding', file: 'Encoding', title: 'Encoding & Evolution', description: 'Protobuf, Avro, schema evolution, and forward/backward compatibility', track: 'systems', order: 4, tags: ['encoding', 'protobuf', 'avro', 'schema-evolution', 'compatibility'] },
+  { id: 'systems/replication', file: 'Replication', title: 'Replication', description: 'Leader/follower, multi-leader, leaderless replication, and quorums', track: 'systems', order: 5, tags: ['replication', 'leader', 'follower', 'quorum', 'consistency'] },
+  { id: 'systems/partitioning', file: 'Partitioning', title: 'Partitioning (Sharding)', description: 'Hash vs range partitioning, consistent hashing, and rebalancing', track: 'systems', order: 6, tags: ['partitioning', 'sharding', 'consistent-hashing', 'rebalancing'] },
+  { id: 'systems/transactions', file: 'Transactions', title: 'Transactions & ACID', description: 'Isolation levels, MVCC, two-phase locking, and distributed transactions', track: 'systems', order: 7, tags: ['transactions', 'acid', 'isolation', 'mvcc', '2pc'] },
+  { id: 'systems/consensus', file: 'Consensus', title: 'Consistency & Consensus', description: 'CAP theorem, linearizability, Raft consensus, and distributed locks', track: 'systems', order: 8, tags: ['cap', 'linearizability', 'raft', 'consensus', 'vector-clocks'] },
+  { id: 'systems/batch-stream', file: 'BatchStream', title: 'Batch & Stream Processing', description: 'MapReduce, event sourcing, CDC, and exactly-once semantics', track: 'systems', order: 9, tags: ['mapreduce', 'streaming', 'event-sourcing', 'cdc'] },
+  { id: 'systems/design-patterns', file: 'DesignPatterns', title: 'System Design Patterns', description: 'Load balancing, caching, rate limiting, circuit breakers, and message queues', track: 'systems', order: 10, tags: ['load-balancing', 'caching', 'rate-limiting', 'circuit-breaker'] },
 ]
 
 /** All lessons sorted by track order then lesson order. */
