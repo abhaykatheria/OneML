@@ -141,6 +141,8 @@ const allLessons: LessonEntry[] = [
   { id: 'systems/consensus', file: 'Consensus', title: 'Consistency & Consensus', description: 'CAP theorem, linearizability, Raft consensus, and distributed locks', track: 'systems', order: 8, tags: ['cap', 'linearizability', 'raft', 'consensus', 'vector-clocks'] },
   { id: 'systems/batch-stream', file: 'BatchStream', title: 'Batch & Stream Processing', description: 'MapReduce, event sourcing, CDC, and exactly-once semantics', track: 'systems', order: 9, tags: ['mapreduce', 'streaming', 'event-sourcing', 'cdc'] },
   { id: 'systems/design-patterns', file: 'DesignPatterns', title: 'System Design Patterns', description: 'Load balancing, caching, rate limiting, circuit breakers, and message queues', track: 'systems', order: 10, tags: ['load-balancing', 'caching', 'rate-limiting', 'circuit-breaker'] },
+  { id: 'systems/kafka-foundations', file: 'KafkaFoundations', title: 'Event-Driven Architecture & Kafka Fundamentals', description: 'From request-response to event-driven systems — topics, partitions, consumer groups, delivery guarantees, and replication in Apache Kafka', track: 'systems', order: 11, tags: ['kafka', 'event-driven', 'partitions', 'consumer-groups', 'replication', 'delivery-guarantees'] },
+  { id: 'systems/kafka-practice', file: 'KafkaInPractice', title: 'Kafka in Real-World Systems', description: 'Four production Kafka architectures — real-time betting, social media fan-out, infrastructure monitoring, and webhook delivery — plus operational best practices', track: 'systems', order: 12, tags: ['kafka', 'system-design', 'betting', 'webhooks', 'monitoring', 'kafka-connect', 'schema-registry'] },
 ]
 
 /** All lessons sorted by track order then lesson order. */
