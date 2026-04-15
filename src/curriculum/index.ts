@@ -67,6 +67,14 @@ export const TRACKS: Track[] = [
     description: 'Data-intensive application design: reliability, data models, storage engines, and distributed systems.',
     firstLesson: 'Foundations',
   },
+  {
+    id: 'datastructures',
+    name: 'Advanced Data Structures',
+    color: 'emerald',
+    icon: 'cube',
+    description: 'Probabilistic and distributed data structures: T-Digest, Bloom filters, HyperLogLog, CRDTs.',
+    firstLesson: 'TDigest',
+  },
 ]
 
 // ── Lesson registry ─────────────────────────────────────
@@ -143,6 +151,14 @@ const allLessons: LessonEntry[] = [
   { id: 'systems/design-patterns', file: 'DesignPatterns', title: 'System Design Patterns', description: 'Load balancing, caching, rate limiting, circuit breakers, and message queues', track: 'systems', order: 10, tags: ['load-balancing', 'caching', 'rate-limiting', 'circuit-breaker'] },
   { id: 'systems/kafka-foundations', file: 'KafkaFoundations', title: 'Event-Driven Architecture & Kafka Fundamentals', description: 'From request-response to event-driven systems — topics, partitions, consumer groups, delivery guarantees, and replication in Apache Kafka', track: 'systems', order: 11, tags: ['kafka', 'event-driven', 'partitions', 'consumer-groups', 'replication', 'delivery-guarantees'] },
   { id: 'systems/kafka-practice', file: 'KafkaInPractice', title: 'Kafka in Real-World Systems', description: 'Four production Kafka architectures — real-time betting, social media fan-out, infrastructure monitoring, and webhook delivery — plus operational best practices', track: 'systems', order: 12, tags: ['kafka', 'system-design', 'betting', 'webhooks', 'monitoring', 'kafka-connect', 'schema-registry'] },
+
+  // ── Advanced Data Structures (6) ──
+  { id: 'datastructures/t-digest', file: 'TDigest', title: 'T-Digest: Streaming Percentiles', description: 'Compute p50/p95/p99 over billions of values in constant memory', track: 'datastructures', order: 1, tags: ['t-digest', 'percentiles', 'streaming', 'monitoring'] },
+  { id: 'datastructures/bloom-filter', file: 'BloomFilter', title: 'Bloom Filters: Probabilistic Membership', description: 'Test set membership with zero false negatives using a fraction of the memory', track: 'datastructures', order: 2, tags: ['bloom-filter', 'probabilistic', 'hash', 'false-positive'] },
+  { id: 'datastructures/g-counter', file: 'GCounter', title: 'G-Counter: Distributed Counting', description: 'Conflict-free replicated counters that converge without coordination', track: 'datastructures', order: 3, tags: ['crdt', 'g-counter', 'pn-counter', 'distributed'] },
+  { id: 'datastructures/hyperloglog', file: 'HyperLogLog', title: 'HyperLogLog: Unique Counting', description: 'Count billions of unique elements in 16KB of memory', track: 'datastructures', order: 4, tags: ['hyperloglog', 'cardinality', 'probabilistic', 'redis'] },
+  { id: 'datastructures/lww-register', file: 'LWWRegister', title: 'LWW-Register: Last Writer Wins', description: 'Resolve concurrent writes with timestamps — simple but lossy', track: 'datastructures', order: 5, tags: ['crdt', 'lww', 'register', 'timestamps', 'clock-skew'] },
+  { id: 'datastructures/or-set', file: 'ORSet', title: 'OR-Set: Observed-Remove Set', description: 'Add-wins set CRDT that handles concurrent add/remove without data loss', track: 'datastructures', order: 6, tags: ['crdt', 'or-set', 'add-wins', 'tags', 'tombstones'] },
 ]
 
 /** All lessons sorted by track order then lesson order. */
