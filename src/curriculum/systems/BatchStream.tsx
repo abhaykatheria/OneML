@@ -40,121 +40,101 @@ function makeRng(seed: number) {
 /* Section 1 — MapReduce Pipeline Visualization                        */
 /* ------------------------------------------------------------------ */
 
-interface MRDataItem {
-  word: string
-  x: number
-  y: number
-  phase: number // 0=input, 1=map, 2=shuffle, 3=reduce, 4=output
-  progress: number
-  targetX: number
-  targetY: number
-  key?: string
-  value?: number
-}
-
 function MapReduceSketch() {
-  const [speed, setSpeed] = useState(1)
   const [step, setStep] = useState(0)
-  const speedRef = useRef(speed)
-  speedRef.current = speed
   const stepRef = useRef(step)
   stepRef.current = step
 
   const sketch = useCallback((p: p5) => {
-    const canvasH = 500
+    const canvasH = 560
     let canvasW = 900
-    const items: MRDataItem[] = []
-    let frame = 0
-    const words = [
-      'hello', 'world', 'hello', 'foo', 'bar', 'world',
-      'hello', 'baz', 'foo', 'world', 'bar', 'hello',
+
+    // E-commerce order data — like Amazon's daily sales log
+    const orders = [
+      { id: 'ORD-001', category: 'Electronics', amount: 299, city: 'NYC' },
+      { id: 'ORD-002', category: 'Books', amount: 24, city: 'LA' },
+      { id: 'ORD-003', category: 'Electronics', amount: 899, city: 'NYC' },
+      { id: 'ORD-004', category: 'Clothing', amount: 65, city: 'Chicago' },
+      { id: 'ORD-005', category: 'Books', amount: 18, city: 'NYC' },
+      { id: 'ORD-006', category: 'Electronics', amount: 149, city: 'LA' },
+      { id: 'ORD-007', category: 'Clothing', amount: 42, city: 'LA' },
+      { id: 'ORD-008', category: 'Books', amount: 35, city: 'Chicago' },
+      { id: 'ORD-009', category: 'Clothing', amount: 120, city: 'NYC' },
+      { id: 'ORD-010', category: 'Electronics', amount: 549, city: 'Chicago' },
     ]
 
-    // Phase geometry
-    const phaseX = [0.08, 0.28, 0.50, 0.72, 0.92]
-    const phaseLabels = ['Input', 'Map', 'Shuffle', 'Reduce', 'Output']
+    const catColors: Record<string, [number, number, number]> = {
+      Electronics: [99, 102, 241],
+      Books: [52, 211, 153],
+      Clothing: [236, 72, 153],
+    }
+    const categories = ['Electronics', 'Books', 'Clothing']
 
-    // Unique keys for coloring
-    const uniqueKeys = Array.from(new Set(words))
-    const keyColors: Record<string, p5.Color> = {}
+    // Animated positions for each order
+    const positions: { x: number; y: number; tx: number; ty: number }[] = []
 
-    function initItems() {
-      items.length = 0
-      for (let i = 0; i < words.length; i++) {
-        const baseX = phaseX[0] * canvasW
-        const baseY = 80 + (i / words.length) * (canvasH - 140)
-        items.push({
-          word: words[i],
-          x: baseX,
-          y: baseY,
-          phase: 0,
-          progress: 0,
-          targetX: baseX,
-          targetY: baseY,
-          key: words[i],
-          value: 1,
-        })
-      }
+    const phaseX = [0.07, 0.27, 0.48, 0.70, 0.90]
+    const phaseLabels = ['Raw Orders', 'Map', 'Shuffle by Category', 'Reduce (Aggregate)', 'Revenue Report']
+    const phaseDesc = [
+      '10 orders from 3 cities',
+      'Emit (category, $amount)',
+      'Group by category',
+      'Sum revenue per category',
+      'Final results',
+    ]
+
+    // Aggregated results
+    const totals: Record<string, { count: number; revenue: number }> = {}
+    for (const o of orders) {
+      if (!totals[o.category]) totals[o.category] = { count: 0, revenue: 0 }
+      totals[o.category].count++
+      totals[o.category].revenue += o.amount
     }
 
-    function positionsForPhase(phase: number) {
+    function setTargets(phase: number) {
+      const topY = 90
+      const rowH = (canvasH - topY - 60) / orders.length
+
       if (phase === 0) {
-        // Input: vertical list
-        items.forEach((it, i) => {
-          it.targetX = phaseX[0] * canvasW
-          it.targetY = 80 + (i / items.length) * (canvasH - 140)
+        orders.forEach((_, i) => {
+          positions[i].tx = phaseX[0] * canvasW
+          positions[i].ty = topY + i * rowH + rowH / 2
         })
       } else if (phase === 1) {
-        // Map: show key-value pairs, spread out
-        items.forEach((it, i) => {
-          it.targetX = phaseX[1] * canvasW
-          it.targetY = 80 + (i / items.length) * (canvasH - 140)
+        orders.forEach((_, i) => {
+          positions[i].tx = phaseX[1] * canvasW
+          positions[i].ty = topY + i * rowH + rowH / 2
         })
       } else if (phase === 2) {
-        // Shuffle: group by key
-        const groups: Record<string, MRDataItem[]> = {}
-        items.forEach((it) => {
-          const k = it.key ?? it.word
-          if (!groups[k]) groups[k] = []
-          groups[k].push(it)
+        // Group by category
+        const groups: Record<string, number[]> = {}
+        orders.forEach((o, i) => {
+          if (!groups[o.category]) groups[o.category] = []
+          groups[o.category].push(i)
         })
-        let gi = 0
-        for (const key of uniqueKeys) {
-          const grp = groups[key] ?? []
-          grp.forEach((it, j) => {
-            it.targetX = phaseX[2] * canvasW + j * 22
-            it.targetY = 80 + gi * 70
+        let catIdx = 0
+        for (const cat of categories) {
+          const idxs = groups[cat] ?? []
+          const groupY = topY + catIdx * (canvasH - topY - 60) / 3
+          idxs.forEach((idx, j) => {
+            positions[idx].tx = phaseX[2] * canvasW + j * 28
+            positions[idx].ty = groupY + 30
           })
-          gi++
+          catIdx++
         }
-      } else if (phase === 3) {
-        // Reduce: one item per key
-        let gi = 0
-        const seen = new Set<string>()
-        items.forEach((it) => {
-          const k = it.key ?? it.word
-          if (!seen.has(k)) {
-            seen.add(k)
-            it.targetX = phaseX[3] * canvasW
-            it.targetY = 80 + gi * 70
-            gi++
+      } else if (phase === 3 || phase === 4) {
+        const px = phaseX[phase === 3 ? 3 : 4] * canvasW
+        let catIdx = 0
+        const placed = new Set<string>()
+        orders.forEach((o, i) => {
+          if (!placed.has(o.category)) {
+            placed.add(o.category)
+            positions[i].tx = px
+            positions[i].ty = topY + catIdx * 120 + 50
+            catIdx++
           } else {
-            // stack behind the representative
-            it.targetX = phaseX[3] * canvasW - 10
-            it.targetY = it.y // stay near current
-          }
-        })
-      } else if (phase === 4) {
-        // Output: final counts
-        let gi = 0
-        const seen = new Set<string>()
-        items.forEach((it) => {
-          const k = it.key ?? it.word
-          if (!seen.has(k)) {
-            seen.add(k)
-            it.targetX = phaseX[4] * canvasW
-            it.targetY = 80 + gi * 70
-            gi++
+            positions[i].tx = px - 20
+            positions[i].ty = positions[i].y
           }
         })
       }
@@ -164,121 +144,139 @@ function MapReduceSketch() {
       const parent = (p as unknown as Record<string, HTMLElement>)._userNode
       canvasW = parent ? parent.clientWidth : 900
       p.createCanvas(canvasW, canvasH)
-      // Assign key colors
-      uniqueKeys.forEach((k, i) => {
-        const hue = (i / uniqueKeys.length) * 360
-        p.colorMode(p.HSB, 360, 100, 100)
-        keyColors[k] = p.color(hue, 70, 90)
-        p.colorMode(p.RGB, 255)
-      })
-      initItems()
-      positionsForPhase(0)
+      p.textFont('monospace')
+      // Init positions
+      for (let i = 0; i < orders.length; i++) {
+        const y = 90 + (i / orders.length) * (canvasH - 150) + 20
+        positions.push({ x: phaseX[0] * canvasW, y, tx: phaseX[0] * canvasW, ty: y })
+      }
     }
 
     p.draw = () => {
-      p.background(15, 23, 42)
-      frame++
-      const spd = speedRef.current
       const currentStep = stepRef.current
+      p.background(15, 23, 42)
 
-      // Set targets if step changed
-      positionsForPhase(currentStep)
+      setTargets(currentStep)
 
-      // Animate items toward targets
-      for (const it of items) {
-        it.x += (it.targetX - it.x) * 0.08 * spd
-        it.y += (it.targetY - it.y) * 0.08 * spd
+      // Animate
+      for (const pos of positions) {
+        pos.x += (pos.tx - pos.x) * 0.1
+        pos.y += (pos.ty - pos.y) * 0.1
       }
 
-      // Draw phase columns
-      p.textAlign(p.CENTER, p.TOP)
-      p.textSize(14)
-      p.noStroke()
+      // Phase columns
       for (let i = 0; i < 5; i++) {
         const cx = phaseX[i] * canvasW
-        // Highlight current phase
         if (i === currentStep) {
-          p.fill(59, 130, 246, 30)
-          p.rect(cx - 60, 40, 120, canvasH - 60, 8)
+          p.fill(59, 130, 246, 20)
+          p.noStroke()
+          p.rect(cx - 55, 42, 110, canvasH - 62, 8)
         }
-        p.fill(i === currentStep ? 255 : 150)
-        p.text(phaseLabels[i], cx, 50)
+        p.noStroke()
+        p.fill(i === currentStep ? 255 : 120)
+        p.textSize(11)
+        p.textAlign(p.CENTER, p.TOP)
+        p.text(phaseLabels[i], cx, 44)
+        p.fill(80)
+        p.textSize(9)
+        p.text(phaseDesc[i], cx, 58)
       }
 
-      // Draw arrows between phases
-      p.stroke(100)
+      // Arrows between phases
+      p.stroke(60)
       p.strokeWeight(1)
       for (let i = 0; i < 4; i++) {
-        const x1 = phaseX[i] * canvasW + 50
-        const x2 = phaseX[i + 1] * canvasW - 50
-        const midY = canvasH / 2
-        p.line(x1, midY, x2, midY)
-        // Arrowhead
-        p.fill(100)
+        const x1 = phaseX[i] * canvasW + 48
+        const x2 = phaseX[i + 1] * canvasW - 48
+        p.line(x1, canvasH / 2, x2, canvasH / 2)
+        p.fill(60)
         p.noStroke()
-        p.triangle(x2, midY, x2 - 8, midY - 4, x2 - 8, midY + 4)
-        p.stroke(100)
-        p.strokeWeight(1)
+        p.triangle(x2, canvasH / 2, x2 - 6, canvasH / 2 - 3, x2 - 6, canvasH / 2 + 3)
+        p.stroke(60)
       }
 
-      // Count per key for reduce / output
-      const counts: Record<string, number> = {}
-      items.forEach((it) => {
-        const k = it.key ?? it.word
-        counts[k] = (counts[k] ?? 0) + 1
-      })
-
-      // Draw items
-      p.textAlign(p.CENTER, p.CENTER)
-      p.textSize(11)
+      // Draw items based on current phase
+      p.textSize(9)
       const seen = new Set<string>()
-      for (const it of items) {
-        const k = it.key ?? it.word
-        const col = keyColors[k] ?? p.color(200)
 
-        if (currentStep <= 1) {
-          // Input / Map: show each item
-          p.fill(col)
+      for (let i = 0; i < orders.length; i++) {
+        const o = orders[i]
+        const pos = positions[i]
+        const [cr, cg, cb] = catColors[o.category]
+
+        if (currentStep === 0) {
+          // Raw orders — show as rows
+          p.fill(cr, cg, cb, 180)
           p.noStroke()
-          p.ellipse(it.x, it.y, 18, 18)
-          p.fill(255)
-          if (currentStep === 0) {
-            p.text(it.word, it.x + 30, it.y)
-          } else {
-            p.text(`(${k}, 1)`, it.x + 40, it.y)
-          }
+          p.rect(pos.x - 4, pos.y - 8, 8, 16, 3)
+          p.fill(200)
+          p.textAlign(p.LEFT, p.CENTER)
+          p.text(`${o.id}  ${o.category}  $${o.amount}  ${o.city}`, pos.x + 12, pos.y)
+        } else if (currentStep === 1) {
+          // Map — emit (category, amount)
+          p.fill(cr, cg, cb, 200)
+          p.noStroke()
+          p.ellipse(pos.x, pos.y, 14, 14)
+          p.fill(220)
+          p.textAlign(p.LEFT, p.CENTER)
+          p.text(`(${o.category}, $${o.amount})`, pos.x + 14, pos.y)
         } else if (currentStep === 2) {
-          // Shuffle: grouped dots
-          p.fill(col)
+          // Shuffle — grouped by category
+          p.fill(cr, cg, cb, 200)
           p.noStroke()
-          p.ellipse(it.x, it.y, 16, 16)
-          if (!seen.has(k)) {
-            seen.add(k)
-            p.fill(255)
-            p.text(k, phaseX[2] * canvasW - 50, it.y)
+          p.ellipse(pos.x, pos.y, 16, 16)
+          p.fill(255)
+          p.textAlign(p.CENTER, p.CENTER)
+          p.text(`$${o.amount}`, pos.x, pos.y)
+          // Category label (once per group)
+          if (!seen.has(o.category)) {
+            seen.add(o.category)
+            p.fill(cr, cg, cb)
+            p.textAlign(p.RIGHT, p.CENTER)
+            p.textSize(11)
+            p.text(o.category, phaseX[2] * canvasW - 20, pos.y)
+            p.textSize(9)
           }
         } else if (currentStep >= 3) {
-          if (!seen.has(k)) {
-            seen.add(k)
-            p.fill(col)
+          // Reduce / Output — aggregated
+          if (!seen.has(o.category)) {
+            seen.add(o.category)
+            const t = totals[o.category]
+            // Draw a bar proportional to revenue
+            const maxRev = Math.max(...categories.map(c => totals[c].revenue))
+            const barW = (t.revenue / maxRev) * 120
+            p.fill(cr, cg, cb, 60)
             p.noStroke()
-            p.ellipse(it.x, it.y, 22, 22)
+            p.rect(pos.x - 5, pos.y - 14, barW, 28, 4)
+            p.fill(cr, cg, cb)
+            p.ellipse(pos.x, pos.y, 20, 20)
             p.fill(255)
+            p.textAlign(p.LEFT, p.CENTER)
+            p.textSize(11)
             if (currentStep === 3) {
-              p.text(`${k}: sum(${counts[k]} ones)`, it.x + 60, it.y)
+              p.text(`${o.category}: ${t.count} orders, sum($) = ...`, pos.x + 16, pos.y)
             } else {
-              p.text(`${k} => ${counts[k]}`, it.x + 50, it.y)
+              p.text(`${o.category}`, pos.x + 16, pos.y - 8)
+              p.fill(52, 211, 153)
+              p.text(`$${t.revenue.toLocaleString()}`, pos.x + 16, pos.y + 8)
+              p.fill(140)
+              p.textSize(9)
+              p.text(`(${t.count} orders, avg $${Math.round(t.revenue / t.count)})`, pos.x + 16 + 60, pos.y + 8)
             }
+            p.textSize(9)
           }
         }
       }
 
       // Title
       p.noStroke()
-      p.fill(148, 163, 184)
+      p.fill(200)
       p.textSize(12)
       p.textAlign(p.LEFT, p.TOP)
-      p.text('MapReduce Word Count — step through phases with buttons below', 10, 10)
+      p.text('MapReduce: E-Commerce Revenue by Category (Amazon-style)', 10, 10)
+      p.fill(100)
+      p.textSize(10)
+      p.text('10 orders across 3 categories and 3 cities — step through the pipeline', 10, 26)
     }
   }, [])
 
@@ -286,38 +284,27 @@ function MapReduceSketch() {
     <div>
       <P5Sketch
         sketch={sketch}
+        height={560}
         controls={
-          <div className="flex items-center gap-4 mt-2">
+          <div className="flex items-center gap-4 mt-2 flex-wrap">
             <button
               className="px-3 py-1 rounded bg-slate-700 text-white text-sm hover:bg-slate-600 disabled:opacity-40"
               disabled={step <= 0}
               onClick={() => setStep((s) => Math.max(0, s - 1))}
             >
-              Previous
+              &larr; Previous
             </button>
-            <span className="text-sm text-slate-300">
+            <span className="text-sm text-slate-300 min-w-[180px] text-center">
               Phase {step + 1} / 5:{' '}
-              {['Input', 'Map', 'Shuffle', 'Reduce', 'Output'][step]}
+              {['Raw Orders', 'Map', 'Shuffle', 'Reduce', 'Report'][step]}
             </span>
             <button
               className="px-3 py-1 rounded bg-blue-600 text-white text-sm hover:bg-blue-500 disabled:opacity-40"
               disabled={step >= 4}
               onClick={() => setStep((s) => Math.min(4, s + 1))}
             >
-              Next
+              Next &rarr;
             </button>
-            <label className="flex items-center gap-2 text-sm text-slate-300 ml-4">
-              Speed
-              <input
-                type="range"
-                min={0.2}
-                max={3}
-                step={0.1}
-                value={speed}
-                onChange={(e) => setSpeed(parseFloat(e.target.value))}
-                className="w-24"
-              />
-            </label>
           </div>
         }
       />
