@@ -37,14 +37,15 @@ export default function Sidebar({ track, lessons }: SidebarProps) {
 
       {/* Sidebar panel */}
       <aside
-        className={`fixed left-0 top-[57px] z-40 h-[calc(100vh-57px)] w-64 overflow-y-auto border-r border-gray-800 bg-gray-950 p-4 transition-transform md:translate-x-0 ${
+        className={`fixed left-0 top-[57px] z-40 h-[calc(100vh-57px)] w-64 overflow-y-auto border-r border-gray-800 bg-gray-950 px-3 pt-4 pb-20 transition-transform md:translate-x-0 ${
           open ? 'translate-x-0' : '-translate-x-full'
         }`}
+        style={{ scrollbarWidth: 'thin', scrollbarColor: '#4b5563 transparent' }}
       >
-        <h2 className="mb-4 text-xs font-semibold uppercase tracking-wider text-gray-500">
+        <h2 className="mb-3 px-1 text-xs font-semibold uppercase tracking-wider text-gray-500">
           {track}
         </h2>
-        <ul className="space-y-1">
+        <ul className="space-y-0.5">
           {lessons.map((lesson) => {
             const active = lesson.file === currentLesson
             return (
