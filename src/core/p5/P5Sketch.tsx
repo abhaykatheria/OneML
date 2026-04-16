@@ -11,7 +11,7 @@ interface P5SketchProps {
 
 export default function P5Sketch({
   sketch,
-  height = 400,
+  height,
   className = "",
   controls,
 }: P5SketchProps) {
@@ -23,7 +23,6 @@ export default function P5Sketch({
       try { instanceRef.current.remove(); } catch { /* ignore */ }
       instanceRef.current = null;
     }
-    // Force-clear any leftover canvases from the container
     if (containerRef.current) {
       containerRef.current.innerHTML = "";
     }
@@ -40,7 +39,10 @@ export default function P5Sketch({
     const handleResize = () => {
       if (instanceRef.current && containerRef.current) {
         const width = containerRef.current.clientWidth;
-        instanceRef.current.resizeCanvas(width, height);
+        // Only resize width, keep the canvas's own height
+        const canvas = containerRef.current.querySelector("canvas");
+        const h = canvas ? canvas.height : (height ?? 400);
+        instanceRef.current.resizeCanvas(width, h);
       }
     };
 
@@ -56,12 +58,7 @@ export default function P5Sketch({
     <div className={`flex flex-col ${className}`}>
       <div
         ref={containerRef}
-        style={{
-          width: "100%",
-          height: `${height}px`,
-          overflow: "hidden",
-          position: "relative",
-        }}
+        style={{ width: "100%" }}
       />
       {controls && <div className="mt-2">{controls}</div>}
     </div>

@@ -158,6 +158,7 @@ const allLessons: LessonEntry[] = [
   { id: 'systems/design-uber', file: 'DesignUber', title: 'Design Uber', description: 'Ride-sharing: geospatial matching, surge pricing, real-time tracking, and payments', track: 'systems', order: 17, tags: ['uber', 'system-design', 'geospatial', 'real-time', 'matching'] },
   { id: 'systems/design-youtube', file: 'DesignYouTube', title: 'Design YouTube', description: 'Video platform: transcoding pipeline, adaptive bitrate streaming, and view counting at scale', track: 'systems', order: 18, tags: ['youtube', 'system-design', 'video', 'transcoding', 'cdn'] },
   { id: 'systems/design-elasticsearch', file: 'DesignElasticsearch', title: 'Design Elasticsearch', description: 'Distributed search: inverted indexes, near-real-time indexing, and scatter-gather queries', track: 'systems', order: 19, tags: ['elasticsearch', 'system-design', 'search', 'inverted-index', 'sharding'] },
+  { id: 'systems/design-twitter', file: 'DesignTwitter', title: 'Design Twitter', description: 'Social media feed: fan-out strategies, timeline ranking, trending topics, and social graph at scale', track: 'systems', order: 20, tags: ['twitter', 'system-design', 'fan-out', 'timeline', 'social-graph', 'trending'] },
 
   // ── Advanced Data Structures (6) ──
   { id: 'datastructures/t-digest', file: 'TDigest', title: 'T-Digest: Streaming Percentiles', description: 'Compute p50/p95/p99 over billions of values in constant memory', track: 'datastructures', order: 1, tags: ['t-digest', 'percentiles', 'streaming', 'monitoring'] },
