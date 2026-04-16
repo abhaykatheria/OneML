@@ -939,7 +939,7 @@ function SearchTrendingSection() {
   const sketch = useCallback((p: p5) => {
     let t = 0
     let canvasW = 800
-    const canvasH = 400
+    const canvasH = 560
 
     const hashtags = ['#AI', '#Bitcoin', '#WorldCup', '#React', '#TypeScript', '#NASA', '#Olympics', '#Python', '#Tesla', '#Climate', '#GameDay', '#Music', '#Startup', '#OpenAI', '#SpaceX']
 

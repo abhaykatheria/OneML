@@ -11,55 +11,41 @@ interface P5SketchProps {
 
 export default function P5Sketch({
   sketch,
-  height,
   className = "",
   controls,
 }: P5SketchProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const instanceRef = useRef<p5 | null>(null);
 
-  function cleanup() {
-    if (instanceRef.current) {
-      try { instanceRef.current.remove(); } catch { /* ignore */ }
-      instanceRef.current = null;
-    }
-    if (containerRef.current) {
-      containerRef.current.innerHTML = "";
-    }
-  }
-
   useEffect(() => {
     if (!containerRef.current) return;
 
-    cleanup();
+    // Clean up previous instance
+    if (instanceRef.current) {
+      try { instanceRef.current.noLoop(); } catch { /* */ }
+      try { instanceRef.current.remove(); } catch { /* */ }
+      instanceRef.current = null;
+    }
+    containerRef.current.innerHTML = "";
 
     const instance = new p5(sketch, containerRef.current);
     instanceRef.current = instance;
 
-    const handleResize = () => {
-      if (instanceRef.current && containerRef.current) {
-        const width = containerRef.current.clientWidth;
-        // Only resize width, keep the canvas's own height
-        const canvas = containerRef.current.querySelector("canvas");
-        const h = canvas ? canvas.height : (height ?? 400);
-        instanceRef.current.resizeCanvas(width, h);
+    return () => {
+      if (instanceRef.current) {
+        try { instanceRef.current.noLoop(); } catch { /* */ }
+        try { instanceRef.current.remove(); } catch { /* */ }
+        instanceRef.current = null;
+      }
+      if (containerRef.current) {
+        containerRef.current.innerHTML = "";
       }
     };
-
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-      cleanup();
-    };
-  }, [sketch, height]);
+  }, [sketch]);
 
   return (
     <div className={`flex flex-col ${className}`}>
-      <div
-        ref={containerRef}
-        style={{ width: "100%" }}
-      />
+      <div ref={containerRef} style={{ width: "100%" }} />
       {controls && <div className="mt-2">{controls}</div>}
     </div>
   );
