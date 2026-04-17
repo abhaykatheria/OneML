@@ -179,6 +179,7 @@ const allLessons: LessonEntry[] = [
   { id: 'datastructures/r-tree', file: 'RTree', title: 'R-Trees: Spatial Indexing', description: 'Find nearby restaurants in O(log n) with bounding rectangle hierarchies', track: 'datastructures', order: 14, tags: ['r-tree', 'spatial', 'postgis', 'range-query', 'bounding-box'] },
   { id: 'datastructures/inverted-index', file: 'InvertedIndex', title: 'Inverted Index: Full-Text Search', description: 'How Elasticsearch and Google find documents by keywords in milliseconds', track: 'datastructures', order: 15, tags: ['inverted-index', 'full-text-search', 'tf-idf', 'elasticsearch'] },
   { id: 'datastructures/timing-wheel', file: 'TimingWheel', title: 'Timing Wheels: Efficient Timer Management', description: 'O(1) timer operations for 100K concurrent connections — used in Kafka and TCP', track: 'datastructures', order: 16, tags: ['timing-wheel', 'timer', 'kafka', 'tcp', 'hierarchical'] },
+  { id: 'datastructures/operational-transformation', file: 'OperationalTransformation', title: 'Operational Transformation: Real-Time Collaboration', description: 'The algorithm behind Google Docs — transform concurrent edits so all users converge', track: 'datastructures', order: 17, tags: ['ot', 'collaborative-editing', 'google-docs', 'crdt-comparison'] },
 ]
 
 /** All lessons sorted by track order then lesson order. */
