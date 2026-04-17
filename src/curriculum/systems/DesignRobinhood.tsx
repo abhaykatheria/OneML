@@ -172,43 +172,6 @@ function drawDot(
   p.ellipse(x, y, 6, 6)
 }
 
-function drawLDot(
-  p: p5,
-  x1: number,
-  y1: number,
-  x2: number,
-  y2: number,
-  progress: number,
-  color: [number, number, number],
-  hFirst = true,
-) {
-  const totalH = Math.abs(x2 - x1)
-  const totalV = Math.abs(y2 - y1)
-  const total = totalH + totalV
-  const dist = progress * total
-  let px: number, py: number
-  if (hFirst) {
-    if (dist <= totalH) {
-      px = x1 + (x2 - x1) * (dist / totalH)
-      py = y1
-    } else {
-      px = x2
-      py = y1 + (y2 - y1) * ((dist - totalH) / totalV)
-    }
-  } else {
-    if (dist <= totalV) {
-      px = x1
-      py = y1 + (y2 - y1) * (dist / totalV)
-    } else {
-      px = x1 + (x2 - x1) * ((dist - totalV) / totalH)
-      py = y2
-    }
-  }
-  p.fill(...color)
-  p.noStroke()
-  p.ellipse(px, py, 6, 6)
-}
-
 function drawDashedLine(
   p: p5,
   x1: number,
@@ -654,7 +617,7 @@ function OrderLifecycleSection() {
   const sketch = useCallback((p: p5) => {
     let t = 0
     let W = 780
-    const H = 440
+    const H = 560
 
     p.setup = () => {
       const parent = (p as unknown as Record<string, HTMLElement>)._userNode
@@ -1169,7 +1132,7 @@ function PortfolioSection() {
   const sketch = useCallback((p: p5) => {
     let t = 0
     let W = 780
-    const H = 460
+    const H = 680
 
     // Simulated portfolio
     const holdings = [
@@ -1373,7 +1336,7 @@ function RiskManagementSection() {
   const sketch = useCallback((p: p5) => {
     let t = 0
     let W = 780
-    const H = 420
+    const H = 540
 
     p.setup = () => {
       const parent = (p as unknown as Record<string, HTMLElement>)._userNode

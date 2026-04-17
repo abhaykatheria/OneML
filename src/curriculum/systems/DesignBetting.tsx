@@ -175,43 +175,6 @@ function drawDot(
   p.ellipse(x, y, 6, 6)
 }
 
-function drawLDot(
-  p: p5,
-  x1: number,
-  y1: number,
-  x2: number,
-  y2: number,
-  progress: number,
-  color: [number, number, number],
-  hFirst = true,
-) {
-  const totalH = Math.abs(x2 - x1)
-  const totalV = Math.abs(y2 - y1)
-  const total = totalH + totalV
-  const dist = progress * total
-  let px: number, py: number
-  if (hFirst) {
-    if (dist <= totalH) {
-      px = x1 + (x2 - x1) * (dist / totalH)
-      py = y1
-    } else {
-      px = x2
-      py = y1 + (y2 - y1) * ((dist - totalH) / totalV)
-    }
-  } else {
-    if (dist <= totalV) {
-      px = x1
-      py = y1 + (y2 - y1) * (dist / totalV)
-    } else {
-      px = x1 + (x2 - x1) * ((dist - totalV) / totalH)
-      py = y2
-    }
-  }
-  p.fill(...color)
-  p.noStroke()
-  p.ellipse(px, py, 6, 6)
-}
-
 function drawDashedLine(
   p: p5,
   x1: number,
@@ -658,7 +621,7 @@ function BetPlacementSection() {
   const sketch = useCallback((p: p5) => {
     let t = 0
     let W = 780
-    const H = 460
+    const H = 560
 
     p.setup = () => {
       const parent = (p as unknown as Record<string, HTMLElement>)._userNode
@@ -691,8 +654,6 @@ function BetPlacementSection() {
       const colOddsV = W * 0.44
       const colWallet = W * 0.60
       const colStore = W * 0.76
-      const colResult = W * 0.90
-
       const topY = 50
 
       // Lifelines
@@ -857,7 +818,7 @@ function OddsEngineSection() {
   const sketch = useCallback((p: p5) => {
     let t = 0
     let W = 780
-    const H = 420
+    const H = 540
 
     // Simulated odds data
     const baseOdds = [
@@ -1034,11 +995,11 @@ function OddsEngineSection() {
       for (let i = 0; i < 4; i++) {
         const cy = pushBoxY - 24 + i * 16
         drawBox(p, clientStartX + 50, cy, 60, 14, INDIGO, `Client ${i + 1}`)
-        drawArrowH(p, W * 0.48 + 43, pushBoxY, clientStartX + 50 - 33, cy, CYAN)
+        drawArrowH(p, W * 0.48 + 43, cy, clientStartX + 50 - 33, CYAN)
       }
 
-      drawArrowH(p, W * 0.12 + 43, pushBoxY, W * 0.30 - 43, pushBoxY, RED)
-      drawArrowH(p, W * 0.30 + 43, pushBoxY, W * 0.48 - 43, pushBoxY, ORANGE)
+      drawArrowH(p, W * 0.12 + 43, pushBoxY, W * 0.30 - 43, RED)
+      drawArrowH(p, W * 0.30 + 43, pushBoxY, W * 0.48 - 43, ORANGE)
 
       // Shared subscription note
       p.fill(...TEXT_C)
@@ -1075,7 +1036,7 @@ function SettlementSection() {
 
   const sketch = useCallback((p: p5) => {
     let W = 780
-    const H = 400
+    const H = 520
     let t = 0
 
     p.setup = () => {
@@ -1116,8 +1077,6 @@ function SettlementSection() {
       const c2 = W * 0.32
       const c3 = W * 0.52
       const c4 = W * 0.72
-      const c5 = W * 0.90
-
       const r1 = 80
       const r2 = 160
       const r3 = 250
@@ -1288,7 +1247,7 @@ function CashOutSection() {
   const sketch = useCallback((p: p5) => {
     let t = 0
     let W = 780
-    const H = 440
+    const H = 560
 
     p.setup = () => {
       const parent = (p as unknown as Record<string, HTMLElement>)._userNode
